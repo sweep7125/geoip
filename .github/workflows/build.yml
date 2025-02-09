@@ -63,10 +63,11 @@ jobs:
           git push -f -u geoip release
 
       - name: Delete existing release
-        uses: dev-drprasad/delete-tag-and-release@v1
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          tag_name: ${{ env.TAG_NAME }}
+        run: |
+          gh release delete ${{ env.TAG_NAME }} --yes || true
+          gh api repos/${{ github.repository }}/git/refs/tags/${{ env.TAG_NAME }} -X DELETE || true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload assets to release
         uses: svenstaro/upload-release-action@v2
