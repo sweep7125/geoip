@@ -18,13 +18,14 @@ jobs:
       - name: Checkout codebase
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 1
 
       - name: Checkout Loyalsoldier/geoip
         uses: actions/checkout@v4
         with:
           repository: Loyalsoldier/geoip
           path: geoip
+          fetch-depth: 1
 
       - name: Setup Go
         uses: actions/setup-go@v5
