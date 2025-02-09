@@ -1,0 +1,78 @@
+name: Build geoip.dat
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "30 0 */3 * *"
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - ".gitignore"
+      - "LICENSE*"
+      - "*.md"
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout codebase
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Checkout Loyalsoldier/geoip
+        uses: actions/checkout@v4
+        with:
+          repository: Loyalsoldier/geoip
+          path: geoip
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: ./geoip/go.mod
+          cache-dependency-path: ./geoip/go.sum
+
+      - name: Set variables
+        run: |
+          echo "TAG_NAME=geoip-release" >> $GITHUB_ENV
+          echo "RELEASE_NAME=Geoip Release" >> $GITHUB_ENV
+        shell: bash
+
+      - name: Build GeoIP files
+        run: |
+          go build -C geoip ./
+          ./geoip/geoip convert -c ./config.json
+
+      - name: Generate sha256 checksum for dat files
+        run: |
+          cd ./output || exit 1
+          for name in $(ls *.dat); do
+            sha256sum ${name} > ./${name}.sha256sum
+          done
+
+      - name: Git push assets to "release" branch
+        run: |
+          cd output || exit 1
+          git init
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b release
+          git add -A
+          git commit -m "${{ env.RELEASE_NAME }}"
+          git remote add geoip "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
+          git push -f -u geoip release
+
+      - name: Delete existing release
+        uses: dev-drprasad/delete-tag-and-release@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          tag_name: ${{ env.TAG_NAME }}
+
+      - name: Upload assets to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file_glob: true
+          file: ./output/*
+          release_name: ${{ env.RELEASE_NAME }}
+          tag: ${{ env.TAG_NAME }}
