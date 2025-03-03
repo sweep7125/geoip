@@ -7,10 +7,7 @@
                 "uri": "https://github.com/runetfreedom/russia-blocked-geoip/raw/release/geoip.dat",
                 "wantedList": [
                     "ru",
-                    "by",
-                    "kz",
-                    "private",
-                    "yandex"
+                    "private"
                 ]
             }
         },
