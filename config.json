@@ -23,6 +23,14 @@
             "type": "text",
             "action": "add",
             "args": {
+                "name": "discord",
+                "uri": "https://iplist.opencck.org/?format=text&data=cidr6&site=discord.com&site=discord.gg&site=discord.media"
+            }
+        },
+        {
+            "type": "text",
+            "action": "add",
+            "args": {
                 "name": "ru-blocked",
                 "uri": "https://community.antifilter.download/list/community.lst"
             }
