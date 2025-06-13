@@ -45,8 +45,13 @@ jobs:
           go build -C geoip ./
           ./geoip/geoip convert -c ./config.json
 
+      - name: Download AWS IP ranges
+        run: |
+          curl -sSL https://ip-ranges.amazonaws.com/ip-ranges.json -o ip-ranges.json
+
       - name: Extract IP prefixes
         run: |
+          mkdir -p output
           jq -r '.prefixes | .[].ip_prefix' < ip-ranges.json > output/ip-prefixes.txt
 
       - name: Generate sha256 checksum for dat files
