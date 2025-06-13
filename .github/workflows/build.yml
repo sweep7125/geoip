@@ -10,6 +10,7 @@ on:
       - ".gitignore"
       - "LICENSE*"
       - "*.md"
+
 jobs:
   build:
     name: Build
@@ -44,6 +45,10 @@ jobs:
           go build -C geoip ./
           ./geoip/geoip convert -c ./config.json
 
+      - name: Extract IP prefixes
+        run: |
+          jq -r '.prefixes | .[].ip_prefix' < ip-ranges.json > output/ip-prefixes.txt
+
       - name: Generate sha256 checksum for dat files
         run: |
           cd ./output || exit 1
@@ -71,4 +76,3 @@ jobs:
           gh release upload "${{ env.TAG_NAME }}" $(find ./output -maxdepth 1 -type f) --clobber
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
