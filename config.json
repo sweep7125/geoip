@@ -7,8 +7,7 @@
                 "uri": "https://cdn.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/geoip.dat",
                 "wantedList": [
                     "ru",
-                    "private",
-                    "cn"
+                    "private"
                 ]
             }
         },
