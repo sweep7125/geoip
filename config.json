@@ -4,7 +4,7 @@
             "type": "v2rayGeoIPDat",
             "action": "add",
             "args": {
-                "uri": "https://github.com/runetfreedom/russia-blocked-geoip/raw/release/geoip.dat",
+                "uri": "https://cdn.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/geoip.dat",
                 "wantedList": [
                     "ru",
                     "private",
@@ -16,32 +16,8 @@
             "type": "text",
             "action": "add",
             "args": {
-                "name": "discord",
-                "uri": "https://iplist.opencck.org/?format=text&data=cidr4&site=discord.com&site=discord.gg&site=discord.media"
-            }
-        },
-        {
-            "type": "text",
-            "action": "add",
-            "args": {
-                "name": "discord",
-                "uri": "https://iplist.opencck.org/?format=text&data=cidr6&site=discord.com&site=discord.gg&site=discord.media"
-            }
-        },
-        {
-            "type": "text",
-            "action": "add",
-            "args": {
-                "name": "ru-blocked",
-                "uri": "https://community.antifilter.download/list/community.lst"
-            }
-        },
-        {
-            "type": "text",
-            "action": "add",
-            "args": {
-                "name": "ru-blocked",
-                "uri": "https://raw.githubusercontent.com/1andrevich/Re-filter-lists/refs/heads/main/ipsum.lst"
+                "name": "discord-voice-ip-list",
+                "uri": "https://raw.githubusercontent.com/GhostRooter0953/discord-voice-ips/refs/heads/master/voice_domains/discord-voice-ip-list"
             }
         }
     ],
